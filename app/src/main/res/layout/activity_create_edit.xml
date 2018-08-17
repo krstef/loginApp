@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/LinearLayout_CE"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="100dp">
+
+        <TextView
+            android:id="@+id/c_e_usernameTV"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textSize="30dp"
+            android:text="@string/c_e_username"
+            />
+
+        <EditText
+            android:id="@+id/c_e_usernameET"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="text"
+            android:textSize="30dp"
+            android:textAlignment="center"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:id="@+id/c_e_passwdTV"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textSize="30dp"
+            android:text="@string/c_e_password"
+            android:layout_marginTop="15dp"
+            />
+
+        <EditText
+            android:id="@+id/c_e_passwdET"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="textPassword"
+            android:textSize="30dp"
+            android:textAlignment="center"
+            android:layout_marginTop="5dp"/>
+
+        <Button
+            android:id="@+id/c_e_faceButton"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/c_e_photo"
+            android:textAlignment="center"
+            android:textSize="20dp" />
+
+        <LinearLayout
+            android:layout_marginTop="75dp"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:weightSum="3"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/c_e_quitButton"
+                android:layout_width="100dp"
+                android:layout_height="fill_parent"
+                android:layout_gravity="left"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:onClick="quitChanges"
+                android:text="@string/c_e_quit"
+                android:textAlignment="center"
+                android:textSize="20dp" />
+
+            <Button
+                android:id="@+id/c_e_saveButton"
+                android:layout_width="100dp"
+                android:layout_height="fill_parent"
+                android:layout_gravity="left"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:onClick="saveChanges"
+                android:text="@string/c_e_save"
+                android:textAlignment="center"
+                android:textSize="20dp" />
+        </LinearLayout>
+
+    </LinearLayout>

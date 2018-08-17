@@ -1,3 +1,19 @@
 <resources>
-    <string name="app_name">FaceRecognitionLoginApp</string>
+    <string name="app_name">Face Recognition Login App</string>
+    <string name="menu_home_about">Info</string>
+    <string name="menu_home_web">Google</string>
+    <string name="menu_home_back">Back</string>
+    <string name="info_title">Login with face recognition</string>
+    <string name="info_contact">email: kristijan.stefanac@ericsson.com
+    kstefanac20@gmail.com kstefanac@tvz.hr</string>
+    <string name="info_details">Application details</string>
+    <string name="home_view_create">Create new user</string>
+    <string name="home_view_edit">Edit user</string>
+    <string name="c_e_username">Username:</string>
+    <string name="c_e_password">Password:</string>
+    <string name="c_e_photo">Face recognition</string>
+    <string name="c_e_quit">Quit</string>
+    <string name="c_e_save">Save</string>
+    <string name="lock_face">Face</string>
+    <string name="lock_pass">Password</string>
 </resources>
