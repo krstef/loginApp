@@ -1,9 +1,16 @@
 package tvz.faceRecognitionLoginApp.Code.CreateEditActivity.Presenter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 import tvz.faceRecognitionLoginApp.Code.CreateEditActivity.Model.CreateEditModel;
 import tvz.faceRecognitionLoginApp.Code.CreateEditActivity.Model.CreateEditModelImpl;
@@ -64,11 +71,14 @@ public class CreateEditPresenterImpl implements CreateEditPresenter, CreateEditM
      * @param passwd
      */
     @Override
-    public void savePresenter(Activity a, String username, String passwd, String determinator) {
-        //kad mi vrati true, digni toast da si spremio uspjesno
-        if(createEditModel.saveUser(username, passwd, determinator, this)) {
+    public void savePresenter(Activity a, String username, String passwd, String determinator) throws IOException{
+        Log.i("CREATE/EDIT Presenter", "uletio sam u savePresenter metodu");
+
+        if(createEditModel.saveUser(a, username, passwd, determinator, this)) {
             Toast t = Toast.makeText(a, "Saved successfully", Toast.LENGTH_SHORT);
             createEditView.showToast(t);
+        }
+
           //odgovor na activity for result primjer
           /*
         KompleksniObject kompleksniObject = new KompleksniObject
@@ -76,8 +86,8 @@ public class CreateEditPresenterImpl implements CreateEditPresenter, CreateEditM
           Intent i = new Intent();
           i.putExtra("myObject", kompleksniObject);
           a.setResult(Activity.RESULT_OK, i);
-          a.finish(); */
-        }
+          a.finish();
+        } */
     }
 
     /**

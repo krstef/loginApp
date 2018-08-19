@@ -1,11 +1,16 @@
 package tvz.faceRecognitionLoginApp.Code.CreateEditActivity.Model;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
+import tvz.faceRecognitionLoginApp.Code.HelperClasses.DataSerializable;
+import tvz.faceRecognitionLoginApp.Code.HelperClasses.DataSerializableImpl;
 import tvz.faceRecognitionLoginApp.Code.HelperClasses.UserInformationHelper;
 
 public class CreateEditModelImpl extends UserInformationHelper implements CreateEditModel {
@@ -26,6 +31,10 @@ public class CreateEditModelImpl extends UserInformationHelper implements Create
      * with received params
      *
      * saveObject() saves edited or newly created object to User Info
+     *
+     * writeObjectToFile() saves newly created object to file so the resources will be always
+     * available - needed for service(when app is not running, lock screen service will pull
+     * data from resource)
      * @param username
      * @param passwd
      * @param determinator
@@ -33,8 +42,8 @@ public class CreateEditModelImpl extends UserInformationHelper implements Create
      * @return
      */
     @Override
-    public boolean saveUser (final String username, final String passwd, final String determinator,
-                             final CreateEditModelChecker cEMChecker) {
+    public boolean saveUser (Activity a, final String username, final String passwd, final String determinator,
+                             final CreateEditModelChecker cEMChecker) throws IOException {
         boolean flag = true;
 
         if(username.isEmpty()) {
@@ -80,7 +89,9 @@ public class CreateEditModelImpl extends UserInformationHelper implements Create
         }
 
         saveObject(userHelper);
+
+        writeObjectToFile(userHelper, a);
+
         return flag;
     }
-
 }

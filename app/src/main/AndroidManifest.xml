@@ -21,7 +21,7 @@
         </activity>
         <activity android:name=".Code.AboutActivity.AboutActivity"
             android:label="Info"
-            android:theme="@style/AppTheme">
+            android:theme="@style/ActionBarTheme">
         </activity>
 
         <activity android:name=".Code.CreateEditActivity.View.CreateEditActivity"
@@ -56,5 +56,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 </manifest>

@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.concurrent.Delayed;
 
 import butterknife.BindView;
@@ -24,12 +25,15 @@ import butterknife.ButterKnife;
 import tvz.faceRecognitionLoginApp.Code.CreateEditActivity.Presenter.CreateEditPresenter;
 import tvz.faceRecognitionLoginApp.Code.CreateEditActivity.Presenter.CreateEditPresenterImpl;
 import tvz.faceRecognitionLoginApp.Code.HelperClasses.KompleksniObject;
+import tvz.faceRecognitionLoginApp.Code.HelperClasses.UserInformationHelper;
 import tvz.faceRecognitionLoginApp.R;
 
 public class CreateEditActivity extends Activity implements CreateEditView {
 
     private String determinator;
     private CreateEditPresenter presenter;
+
+    public String path = Environment.getExternalStorageDirectory() + "/" + "MyFirstApp/";
 
     @BindView(R.id.c_e_usernameET) EditText inputUsername;
     @BindView(R.id.c_e_passwdET) EditText inputPasswd;
@@ -118,10 +122,12 @@ public class CreateEditActivity extends Activity implements CreateEditView {
      * @param v
      */
     @Override
-    public void saveChanges(View v) {
+    public void saveChanges(View v) throws IOException {
         presenter.savePresenter(this, inputUsername.getText().toString(),
-                inputPasswd.getText().toString(), determinator);
+               inputPasswd.getText().toString(), determinator);
     }
+
+
 
     /**
      * When user clicks on quit button, this method will be caled

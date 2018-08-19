@@ -1,7 +1,18 @@
 package tvz.faceRecognitionLoginApp.Code.HelperClasses;
 
+import android.app.Activity;
+import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 /**
  * This class is used in whole app as helper
@@ -14,16 +25,19 @@ import android.util.Log;
  * UserInformationHelper object properties could be changed only in CreateEditModelImpl!!!
  */
 
-/*
-TODO napravi serijalizaciju i deserijalizaciju u txt file pa pomoću toga provjeravaj usera
-To će omogućiti da na lock screenu pozovem potpuni destroy app čim se uspješno ulogiram
- */
 
-public class UserInformationHelper {
+public class UserInformationHelper extends Activity {
 
     private String username;
     private String password;
     private boolean userCreated;
+
+    DataSerializable dataSerializable;
+
+    public UserInformationHelper() {
+        this.dataSerializable = new DataSerializableImpl();
+    }
+
 
     public UserInformationHelper (String username, String password, boolean userCreated) {
         super();
@@ -32,10 +46,9 @@ public class UserInformationHelper {
         this.userCreated = userCreated;
     }
 
-    public UserInformationHelper(){
-    }
-
     private static UserInformationHelper superHelper = null;
+
+    //private static UserInformationHelper readHelper = null;
 
     public String getPassword() {
         return password;
@@ -61,14 +74,21 @@ public class UserInformationHelper {
         this.userCreated = userCreated;
     }
 
-    public void saveObject(UserInformationHelper helper) {
-
-        superHelper = helper;
-
-        Log.i("HELPER", superHelper.getUsername());
-    }
-
     public static UserInformationHelper getSuperHelper() {
         return superHelper;
     }
+
+    public void saveObject(UserInformationHelper helper) throws IOException {
+        superHelper = helper;
+    }
+
+    public void writeObjectToFile(UserInformationHelper helper, Activity a) {
+        dataSerializable.writeObjectToFile(helper, a);
+    }
+
+    public UserInformationHelper readDataFromFile(Activity a) throws IOException {
+        return dataSerializable.readDataFromFile(a);
+    }
+
+
 }

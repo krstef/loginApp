@@ -5,11 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import butterknife.ButterKnife;
 import tvz.faceRecognitionLoginApp.Code.CreateEditActivity.View.CreateEditActivity;
@@ -39,8 +45,18 @@ public class HomeActivity extends Activity implements HomeView {
 
         presenter = new HomePresenterImpl(this);
 
+
+        try {
+            presenter.checkAppInitialStart(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
+    /**
+     * Starts the LockScreenService
+     */
     @Override
     protected void onStart() {
         super.onStart();

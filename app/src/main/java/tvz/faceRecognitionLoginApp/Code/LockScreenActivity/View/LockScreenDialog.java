@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -31,12 +32,15 @@ public class LockScreenDialog extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         EditText passwordEditText = (EditText) view.findViewById(R.id.lockLoginPass);
+                        Log.i("DIALOG", "unutra smo");
                         if(userHelper == null) {
                             //dodati logiku koja ce hendlati slucaj kada user nije iskreirao account
-                            getActivity().finish();
+                            //dodano u modelu
+
+                            Log.i("DIALOG", "user helper je null");
+                            android.os.Process.killProcess(android.os.Process.myPid());
                         }
                         if(!passwordEditText.getText().toString().equals(userHelper.getPassword().toString())) {
-
                             passwordEditText.setError("Wrong password! Please try again");
                             Toast.makeText(getActivity(), "Wrong password\n" + "Please try again", Toast.LENGTH_LONG).show();
                         } else {

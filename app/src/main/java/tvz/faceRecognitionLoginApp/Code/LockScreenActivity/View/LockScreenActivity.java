@@ -2,6 +2,7 @@ package tvz.faceRecognitionLoginApp.Code.LockScreenActivity.View;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,14 +10,20 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 
+import java.io.IOException;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import tvz.faceRecognitionLoginApp.Code.LockScreenActivity.Presenter.LockScreenPresenter;
+import tvz.faceRecognitionLoginApp.Code.LockScreenActivity.Presenter.LockScreenPresenterImpl;
 import tvz.faceRecognitionLoginApp.R;
 
-
+//TODO poslozi cijeli dir po MVP arhitekturi
 public class LockScreenActivity extends Activity implements LockScreenView {
 
     private String flag;
+    private LockScreenPresenter lockScreenPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +33,14 @@ public class LockScreenActivity extends Activity implements LockScreenView {
             //startService(new Intent(this,LockScreenService.class));
 
             setContentView(R.layout.activity_lock_screen);
+
+            lockScreenPresenter = new LockScreenPresenterImpl(this);
+
+        try {
+            lockScreenPresenter.initDataPresenter(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -49,16 +64,25 @@ public class LockScreenActivity extends Activity implements LockScreenView {
         return; //Do nothing!
     }
 
-    /*
-    TODO inicijaliziraj deserializable userInfo objekt i napravi s njime provjeru
-    Ako ga imaš, ok, super, može login..
-    Ako ga nemaš, jebiga amigo, redirectaj nas na kreiranje novog
-     */
+    @Override
     public void unlockScreen(View view) {
         //Instead of using finish(), this totally destroys the process
         //android.os.Process.killProcess(android.os.Process.myPid());
         //finish
         LockScreenDialog dialog = new LockScreenDialog();
         dialog.show(getFragmentManager(), "Login");
+    }
+
+    @Override
+    protected void onDestroy() {
+        lockScreenPresenter.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
+    public void callCreateEditUser(Class c, String determinator) {
+        Intent i = new Intent (this, c);
+        i.setData(Uri.parse(determinator));
+        startActivity(i);
     }
 }

@@ -6,6 +6,10 @@ import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import tvz.faceRecognitionLoginApp.Code.AboutActivity.AboutActivity;
 import tvz.faceRecognitionLoginApp.Code.CreateEditActivity.View.CreateEditActivity;
 import tvz.faceRecognitionLoginApp.Code.HelperClasses.CreateEditHelper;
@@ -35,17 +39,13 @@ public class HomePresenterImpl implements HomePresenter, HomeMenuModel.MenuItemH
         homeView = null;
     }
 
-    /**
-     * Enables start of lock screen only when user is created
-     * @param a
-     */
     @Override
-    public void startLockScreen(Activity a) {
-
-        //if(homeModel.checkIfUserCreated())
-
-        /*Intent i = new Intent(a.getApplicationContext(), LockScreenActivity.class);
-        a.startActivity(i); */
+    public void checkAppInitialStart(Activity a) throws IOException {
+        try {
+            homeModel.checkInitialStartModel(a);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
