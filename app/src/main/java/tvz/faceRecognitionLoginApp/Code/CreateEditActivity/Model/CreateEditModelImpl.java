@@ -2,15 +2,19 @@ package tvz.faceRecognitionLoginApp.Code.CreateEditActivity.Model;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
+import tvz.faceRecognitionLoginApp.Code.HelperClasses.CreateEditHelper;
 import tvz.faceRecognitionLoginApp.Code.HelperClasses.DataSerializable;
 import tvz.faceRecognitionLoginApp.Code.HelperClasses.DataSerializableImpl;
+import tvz.faceRecognitionLoginApp.Code.HelperClasses.FaceDetectionHelper;
 import tvz.faceRecognitionLoginApp.Code.HelperClasses.UserInformationHelper;
 
 public class CreateEditModelImpl extends UserInformationHelper implements CreateEditModel {
@@ -19,6 +23,14 @@ public class CreateEditModelImpl extends UserInformationHelper implements Create
     private static final String userNameIsEmptyID = "username";
     private static final String passwdIsEmpty = "Password cannot be empty";
     private static final String passwdIsEmptyID = "password";
+    private static final String imgNotSaved = "Image is not saved successfully\n" +
+            "Please try again";
+    private static final String imgSaved = "Image saved successfully";
+    private static final String saveImage = "save";
+    private static final String userImageIsNotSaved = "You should also take a\n" +
+            "photo for face recognition";
+
+    boolean isImageAvailable = false;
 
     UserInformationHelper userHelper = UserInformationHelper.getSuperHelper();
 
@@ -45,13 +57,16 @@ public class CreateEditModelImpl extends UserInformationHelper implements Create
     public boolean saveUser (Activity a, final String username, final String passwd, final String determinator,
                              final CreateEditModelChecker cEMChecker) throws IOException {
         boolean flag = true;
-
         if(username.isEmpty()) {
             cEMChecker.emptyValue(userNameIsEmpty, userNameIsEmptyID);
-            flag = false;
+            return false;
         } else if (passwd.isEmpty()) {
             cEMChecker.emptyValue(passwdIsEmpty, passwdIsEmptyID);
-            flag = false;
+            return false;
+        } else if (!isImageAvailable) {
+            Log.i("jel usao!", String.valueOf(isImageAvailable));
+            cEMChecker.userEmpty(userImageIsNotSaved, a);
+            return false;
         } else {
             flag = true;
         }
@@ -93,5 +108,24 @@ public class CreateEditModelImpl extends UserInformationHelper implements Create
         writeObjectToFile(userHelper, a);
 
         return flag;
+    }
+
+    public String detectFace (Activity a, final Bitmap image) {
+        //TODO updateaj userinfo objekt o tome da je slika spremljena
+        String message = "";
+        boolean flag = false;
+
+        FaceDetectionHelper faceDetection = new FaceDetectionHelper();
+
+        if (faceDetection.faceDetection(a, image, saveImage)) {
+            message = imgSaved;
+            flag = true;
+        } else {
+            message = imgNotSaved;
+            flag = false;
+        }
+
+        isImageAvailable = flag;
+        return message;
     }
 }

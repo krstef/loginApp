@@ -17,11 +17,10 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
-        android:onClick="unlockScreen"
+        android:onClick="unlockWithFace"
         android:text="@string/lock_face"
         android:textAlignment="center"
-        android:textSize="20dp"
-        app:srcCompat="@android:drawable/ic_menu_camera" />
+        android:textSize="10dp" />
 
     <ImageButton
         android:id="@+id/lockPass"
@@ -32,7 +31,6 @@
         android:onClick="unlockScreen"
         android:text="@string/lock_pass"
         android:textAlignment="center"
-        android:textSize="20dp"
-        app:srcCompat="@android:drawable/ic_lock_lock" />
+        android:textSize="20dp" />
 
 </LinearLayout>

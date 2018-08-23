@@ -1,26 +1,16 @@
 package tvz.faceRecognitionLoginApp.Code.CreateEditActivity.Presenter;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 
 import tvz.faceRecognitionLoginApp.Code.CreateEditActivity.Model.CreateEditModel;
 import tvz.faceRecognitionLoginApp.Code.CreateEditActivity.Model.CreateEditModelImpl;
 import tvz.faceRecognitionLoginApp.Code.CreateEditActivity.View.CreateEditView;
-import tvz.faceRecognitionLoginApp.Code.HelperClasses.KompleksniObject;
 import tvz.faceRecognitionLoginApp.Code.HelperClasses.UserInformationHelper;
-import tvz.faceRecognitionLoginApp.Code.HomeActivity.View.HomeActivity;
-import tvz.faceRecognitionLoginApp.Code.LockScreenActivity.View.LockScreenActivity;
-
-import static android.os.SystemClock.sleep;
 
 public class CreateEditPresenterImpl implements CreateEditPresenter, CreateEditModel.CreateEditModelChecker {
 
@@ -131,5 +121,23 @@ public class CreateEditPresenterImpl implements CreateEditPresenter, CreateEditM
     @Override
     public void emptyValue(String message, String identifier) {
         createEditView.setTxtError(message, identifier);
+    }
+
+    /**
+     * Called from the View when onActivityResult returns image data inside Intent
+     * Forwards request to the model
+     * @param a
+     * @param image
+     */
+    @Override
+    public void detectFace(Activity a, Bitmap image) {
+        String message = createEditModel.detectFace(a, image);
+            Toast.makeText(a.getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void userEmpty(String message, Activity a) {
+        Toast.makeText(a.getApplicationContext(), message,
+                Toast.LENGTH_SHORT).show();
     }
 }

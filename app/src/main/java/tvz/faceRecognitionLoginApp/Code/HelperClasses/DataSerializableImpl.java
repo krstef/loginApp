@@ -2,6 +2,9 @@ package tvz.faceRecognitionLoginApp.Code.HelperClasses;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -22,8 +25,9 @@ import java.util.List;
 
 public class DataSerializableImpl implements DataSerializable, Serializable{
 
-    private static final String directory = "LoginApp";
     private static final String userDataFile = "user_data.dat";
+    private static final String bitmapDir = "LoginApp";
+    private static final String bitmaptFileName = "user_img";
 
     /**
      * Serialisation method
@@ -123,6 +127,55 @@ public class DataSerializableImpl implements DataSerializable, Serializable{
         }
 
         return newUserHelper;
+    }
+
+    /**
+     * Save bitmap to file
+     * @param bitmap
+     * @param a
+     * @return true on success, otherwise false
+     */
+    @Override
+    public boolean writeBitmapToFile(Bitmap bitmap, Activity a) {
+        boolean flag = false;
+        /*
+        Create dir and file name
+         */
+        File directory = a.getApplicationContext().getDir(bitmapDir, Context.MODE_PRIVATE);
+        File path = new File (directory, bitmaptFileName);
+
+        FileOutputStream fileOutputStream = null;
+
+        try {
+            fileOutputStream = new FileOutputStream(path);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
+            flag = true;
+            Log.i("Bitmap serialization", "Bitmap serialization succeed!");
+        } catch (IOException e) {
+            Log.i("Bitmap serialization", "Bitmap serialization failed!");
+            flag = false;
+            e.printStackTrace();
+        }
+
+        return flag;
+    }
+
+    @Override
+    public Bitmap readBitmapFromFile(Activity a) {
+        Log.i("Bitmap deserialization", "in");
+        Bitmap image = null;
+        File directory = a.getApplicationContext().getDir(bitmapDir, Context.MODE_PRIVATE);
+        File file = new File(directory.toString(), bitmaptFileName);
+
+        try {
+            FileInputStream fileInputStream = new FileInputStream(file);
+            image = BitmapFactory.decodeStream(fileInputStream);
+            Log.i("Bitmap deserialization", "image found!");
+        } catch (IOException e) {
+            Log.i("Bitmap deserialization", "exception, we didn't find file");
+        }
+
+        return image;
     }
 
 }

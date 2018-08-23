@@ -12,7 +12,7 @@ import android.widget.Toast;
 import tvz.faceRecognitionLoginApp.Code.HelperClasses.UserInformationHelper;
 import tvz.faceRecognitionLoginApp.R;
 
-public class LockScreenDialog extends DialogFragment {
+public class RecognitionSucceedDialog extends DialogFragment {
 
     UserInformationHelper userHelper = UserInformationHelper.getSuperHelper();
 
@@ -20,9 +20,11 @@ public class LockScreenDialog extends DialogFragment {
     public Dialog onCreateDialog(android.os.Bundle savedInstanceState) {
         final View view =
                 getActivity().getLayoutInflater()
-                        .inflate(R.layout.pass_login_dialog, null);
+                        .inflate(R.layout.save_image_dialog, null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        //treba dodati logiku koja ce spremiti unesene vrijednosti negdje
 
         builder.setView(view)
                 .setPositiveButton("Login", new DialogInterface.OnClickListener() {

@@ -2,14 +2,18 @@ package tvz.faceRecognitionLoginApp.Code.LockScreenActivity.Model;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 
 import java.io.IOException;
 
+import tvz.faceRecognitionLoginApp.Code.HelperClasses.FaceDetectionHelper;
 import tvz.faceRecognitionLoginApp.Code.HelperClasses.UserInformationHelper;
 
 public class LockScreenModelImpl extends UserInformationHelper implements LockScreenModel {
 
     public static final String create = "Create";
+    private static final String loginFace = "login";
+
     /**
      * Just to update LockScreen service when main activity is not running
      * @param a
@@ -33,5 +37,18 @@ public class LockScreenModelImpl extends UserInformationHelper implements LockSc
 
         check.userCreated(flag, create);
         saveObject(userHelper);
+    }
+
+    @Override
+    public boolean loginWithFaceModel(Activity a, Bitmap image) {
+        boolean flag = false;
+        FaceDetectionHelper faceDetection = new FaceDetectionHelper();
+
+        if (faceDetection.faceDetection(a, image, loginFace)) {
+            flag = true;
+        } else {
+            flag = false;
+        }
+        return flag;
     }
 }

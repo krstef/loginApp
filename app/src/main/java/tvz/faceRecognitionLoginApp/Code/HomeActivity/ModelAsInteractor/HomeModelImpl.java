@@ -109,7 +109,7 @@ public class HomeModelImpl extends UserInformationHelper implements HomeModel {
                 break;
         }
 
-        return new CreateEditHelper(created, msg);
+        return new CreateEditHelper(created, msg, null);
     }
 
     public boolean checkIfUserCreated() {

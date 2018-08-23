@@ -1,37 +1,45 @@
 package tvz.faceRecognitionLoginApp.Code.CreateEditActivity.View;
 
 import android.app.Activity;
-import android.content.Context;
-import android.net.Uri;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import com.google.android.gms.vision.Frame;
+import com.google.android.gms.vision.face.Face;
+import com.google.android.gms.vision.face.FaceDetector;
+
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.util.concurrent.Delayed;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tvz.faceRecognitionLoginApp.Code.CreateEditActivity.Presenter.CreateEditPresenter;
 import tvz.faceRecognitionLoginApp.Code.CreateEditActivity.Presenter.CreateEditPresenterImpl;
-import tvz.faceRecognitionLoginApp.Code.HelperClasses.KompleksniObject;
-import tvz.faceRecognitionLoginApp.Code.HelperClasses.UserInformationHelper;
 import tvz.faceRecognitionLoginApp.R;
+
 
 public class CreateEditActivity extends Activity implements CreateEditView {
 
     private String determinator;
     private CreateEditPresenter presenter;
+
+    public static final Integer CAMERA_RETURN_CODE = 1;
+
 
     public String path = Environment.getExternalStorageDirectory() + "/" + "MyFirstApp/";
 
@@ -163,5 +171,32 @@ public class CreateEditActivity extends Activity implements CreateEditView {
     protected void onDestroy() {
         presenter.onDestroy();
         super.onDestroy();
+    }
+
+    /**
+     * Create Intent and start Camera Activity for result
+     * @param v
+     */
+    public void startCamera(View v) {
+
+        Intent cameraIntent = new Intent (MediaStore.ACTION_IMAGE_CAPTURE);
+        if(cameraIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(cameraIntent, CAMERA_RETURN_CODE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAMERA_RETURN_CODE && resultCode == RESULT_OK) {
+            Log.i("Camera return code", "OK");
+            /*
+            Load image data from intent and save it to Bitmap object
+             */
+            Bitmap cameraBmp = (Bitmap) data.getExtras().get("data");
+            presenter.detectFace(this, cameraBmp);
+
+        } else {
+        Log.i("Camera return code", "Camera didn't return expected code");
+        }
     }
 }

@@ -2,13 +2,17 @@ package tvz.faceRecognitionLoginApp.Code.LockScreenActivity.View;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import java.io.IOException;
 
@@ -23,12 +27,12 @@ public class LockScreenActivity extends Activity implements LockScreenView {
 
     private String flag;
     private LockScreenPresenter lockScreenPresenter;
+    public static final Integer CAMERA_RETURN_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Set up our Lockscreen
-
             makeFullScreen();
             //startService(new Intent(this,LockScreenService.class));
 
@@ -71,6 +75,28 @@ public class LockScreenActivity extends Activity implements LockScreenView {
         //finish
         LockScreenDialog dialog = new LockScreenDialog();
         dialog.show(getFragmentManager(), "Login");
+    }
+
+    public void unlockWithFace(View v) {
+        Intent cameraIntent = new Intent (MediaStore.ACTION_IMAGE_CAPTURE);
+        if(cameraIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(cameraIntent, CAMERA_RETURN_CODE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAMERA_RETURN_CODE && resultCode == RESULT_OK) {
+            Log.i("Camera return code", "OK");
+            /*
+            Load image data from intent and save it to Bitmap object
+             */
+            Bitmap cameraBmp = (Bitmap) data.getExtras().get("data");
+            lockScreenPresenter.loginWithFace(this, cameraBmp);
+        } else {
+            Log.i("Camera return code", "Camera didn't return expected code");
+            finish();
+        }
     }
 
     @Override
