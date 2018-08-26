@@ -111,7 +111,6 @@ public class CreateEditModelImpl extends UserInformationHelper implements Create
     }
 
     public String detectFace (Activity a, final Bitmap image) {
-        //TODO updateaj userinfo objekt o tome da je slika spremljena
         String message = "";
         boolean flag = false;
 

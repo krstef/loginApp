@@ -95,7 +95,7 @@ public class LockScreenActivity extends Activity implements LockScreenView {
             lockScreenPresenter.loginWithFace(this, cameraBmp);
         } else {
             Log.i("Camera return code", "Camera didn't return expected code");
-            finish();
+            //finish();
         }
     }
 

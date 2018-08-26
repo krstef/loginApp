@@ -101,6 +101,8 @@ public class DataSerializableImpl implements DataSerializable, Serializable{
             while ((line = reader.readLine()) != null) {
                 buffer.append(line);
             }
+            //Close file
+            inputStream.close();
 
             inputReader.close();
             bilder = buffer.toString();
@@ -150,6 +152,7 @@ public class DataSerializableImpl implements DataSerializable, Serializable{
             fileOutputStream = new FileOutputStream(path);
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
             flag = true;
+            fileOutputStream.close();
             Log.i("Bitmap serialization", "Bitmap serialization succeed!");
         } catch (IOException e) {
             Log.i("Bitmap serialization", "Bitmap serialization failed!");
@@ -170,6 +173,7 @@ public class DataSerializableImpl implements DataSerializable, Serializable{
         try {
             FileInputStream fileInputStream = new FileInputStream(file);
             image = BitmapFactory.decodeStream(fileInputStream);
+            fileInputStream.close();
             Log.i("Bitmap deserialization", "image found!");
         } catch (IOException e) {
             Log.i("Bitmap deserialization", "exception, we didn't find file");

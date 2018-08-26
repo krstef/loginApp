@@ -130,6 +130,8 @@ public class FaceDetectionHelper  {
         SparseArray<Face> faces = faceDetector.detect(frame);
         Log.i("FaceDetection", "Number of faces = " + String.valueOf(faces.size()));
 
+        //frame.
+
         if(faces.size() > 0) {
             return finalImg;
         } else {
